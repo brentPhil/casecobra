@@ -8,6 +8,14 @@ const {
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  safelist: [
+    "bg-zinc-900",
+    "bg-blue-950",
+    "bg-rose-950",
+    "border-zinc-900",
+    "border-blue-950",
+    "border-rose-950",
+  ],
   darkMode: ["class"],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
