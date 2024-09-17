@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import NavBar from "@/components/NavBar";
@@ -7,10 +7,14 @@ import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import Providers from "@/components/Providers";
 
-const Montserrat = localFont({
-  src: "./fonts/Montserrat-Italic-VariableFont_wght.ttf",
-  variable: "--font-poppins",
-  weight: "100 900",
+// const Montserrat = localFont({
+//   src: "./fonts/Montserrat-Italic-VariableFont_wght.ttf",
+//   variable: "--font-poppins",
+//   weight: "100 900",
+// });
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -26,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${Montserrat.variable} antialiased bg-background text-foreground`}
+        className={`${montserrat.className} antialiased bg-background text-foreground`}
       >
         <ThemeProvider attribute="class" defaultTheme="system">
           <NavBar />

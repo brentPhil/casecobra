@@ -21,7 +21,7 @@ interface NavProfileDropdownProps {
 
 const NavProfileDropdown: React.FC<NavProfileDropdownProps> = ({
   user,
-  isAdmin,
+  // isAdmin,
 }) => {
   return (
     <DropdownMenu>
