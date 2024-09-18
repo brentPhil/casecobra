@@ -22,6 +22,7 @@ export async function POST(req: Request) {
       if (!event.data.object.customer_details?.email) {
         throw new Error("Missing user email");
       }
+
       const session = event.data.object as Stripe.Checkout.Session;
 
       const { userId, orderId } = session.metadata || {
@@ -43,23 +44,21 @@ export async function POST(req: Request) {
           shippingAddress: {
             create: {
               name: session.customer_details!.name!,
-              street: shippingAddress!.line1!,
               city: shippingAddress!.city!,
-              postalCode: shippingAddress!.postal_code!,
               country: shippingAddress!.country!,
-              state: shippingAddress?.state,
-              phoneNumber: session.customer_details?.phone,
+              postalCode: shippingAddress!.postal_code!,
+              street: shippingAddress!.line1!,
+              state: shippingAddress!.state,
             },
           },
           billingAddress: {
             create: {
               name: session.customer_details!.name!,
-              street: billingAddress!.line1!,
               city: billingAddress!.city!,
-              postalCode: billingAddress!.postal_code!,
               country: billingAddress!.country!,
-              state: billingAddress?.state,
-              phoneNumber: session.customer_details?.phone,
+              postalCode: billingAddress!.postal_code!,
+              street: billingAddress!.line1!,
+              state: billingAddress!.state,
             },
           },
         },
