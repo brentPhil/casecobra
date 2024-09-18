@@ -4,6 +4,19 @@ import Stripe from "stripe";
 import db from "@/db";
 import { NextResponse } from "next/server";
 
+type Address = {
+  city?: string;
+  country?: string;
+  postal_code?: string;
+  line1?: string;
+  state?: string;
+};
+
+type SessionDetails = {
+  name?: string;
+  address?: Address;
+};
+
 export async function POST(req: Request) {
   try {
     const body = await req.text();
@@ -34,37 +47,37 @@ export async function POST(req: Request) {
         throw new Error("Invalid request metadata");
       }
 
-      const billingAddress = session.customer_details!.address;
-      const shippingAddress = session.shipping_details!.address;
+      const { customer_details, shipping_details } = session as {
+        customer_details?: SessionDetails;
+        shipping_details?: { address?: Address };
+      };
 
-      await db.order.update({
-        where: {
-          id: orderId,
-        },
-        data: {
-          isPaid: true,
-          shippingAddress: {
-            create: {
-              name: session.customer_details!.name!,
-              city: shippingAddress!.city!,
-              country: shippingAddress!.country!,
-              postalCode: shippingAddress!.postal_code!,
-              street: shippingAddress!.line1!,
-              state: shippingAddress!.state,
-            },
-          },
-          billingAddress: {
-            create: {
-              name: session.customer_details!.name!,
-              city: billingAddress!.city!,
-              country: billingAddress!.country!,
-              postalCode: billingAddress!.postal_code!,
-              street: billingAddress!.line1!,
-              state: billingAddress!.state,
-            },
-          },
-        },
+      // Helper function to create address data
+      const createAddressData = (address: Address) => ({
+        name: customer_details?.name ?? "",
+        city: address.city ?? "",
+        country: address.country ?? "",
+        postalCode: address.postal_code ?? "",
+        street: address.line1 ?? "",
+        state: address.state ?? "",
       });
+
+      // Extract billing and shipping addresses
+      const billingAddress = customer_details?.address;
+      const shippingAddress = shipping_details?.address;
+
+      if (billingAddress && shippingAddress) {
+        await db.order.update({
+          where: {
+            id: orderId,
+          },
+          data: {
+            isPaid: true,
+            shippingAddress: { create: createAddressData(shippingAddress) },
+            billingAddress: { create: createAddressData(billingAddress) },
+          },
+        });
+      }
     }
 
     return NextResponse.json({ result: event, ok: true });
