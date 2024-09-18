@@ -39,7 +39,8 @@ export async function POST(req: Request) {
       const billingAddress = session.customer_details?.address;
       const shippingAddress = session.shipping_details?.address;
 
-      console.log("billing:" + billingAddress, "shipping:" + shippingAddress);
+      console.log(`billing: ${billingAddress}`);
+      console.log(`shipping: ${shippingAddress}`);
 
       // Add checks for billing and shipping addresses
       if (!billingAddress || !shippingAddress) {
