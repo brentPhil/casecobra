@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import db from "@/db";
 import { stripe } from "@/lib/stripe";
 import { headers } from "next/headers";
@@ -5,15 +6,17 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
 export async function POST(req: Request) {
-  try {
-    const body = await req.text();
-    const signature = headers().get("stripe-signature");
+  const body = await req.text();
+  const signature = headers().get("Stripe-Signature") as string;
 
+  let event: Stripe.Event;
+
+  try {
     if (!signature) {
       return new Response("Invalid signature", { status: 400 });
     }
 
-    const event = stripe.webhooks.constructEvent(
+    event = stripe.webhooks.constructEvent(
       body,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
@@ -37,10 +40,11 @@ export async function POST(req: Request) {
       }
 
       const billingAddress = session.customer_details?.address;
-      const shippingAddress = session.shipping_details?.address;
+      // @ts-expect-error
+      const shippingAddress = session.shipping?.address;
 
-      console.log(`billing: ${[billingAddress]}`);
-      console.log(`shipping: ${[shippingAddress]}`);
+      console.log("billing", billingAddress);
+      console.log("shipping", shippingAddress);
 
       // Add checks for billing and shipping addresses
       if (!billingAddress || !shippingAddress) {

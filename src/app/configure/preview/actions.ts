@@ -16,15 +16,15 @@ export const createCheckoutSession = async ({
   });
 
   if (!configuration) {
-    throw new Error("Configuration not found");
+    throw new Error("No such configuration found");
   }
 
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
-  console.log(user.id);
-
-  if (!user) throw new Error("User not found");
+  if (!user) {
+    throw new Error("You need to be logged in");
+  }
 
   const { finish, material } = configuration;
 
@@ -38,32 +38,30 @@ export const createCheckoutSession = async ({
   const existingOrder = await db.order.findFirst({
     where: {
       userId: user.id,
-      configurationId: configId,
+      configurationId: configuration.id,
     },
   });
+
+  console.log(user.id, configuration.id);
 
   if (existingOrder) {
     order = existingOrder;
   } else {
     order = await db.order.create({
       data: {
-        userId: user.id,
-        configurationId: configId,
         amount: price / 100,
+        userId: user.id,
+        configurationId: configuration.id,
       },
     });
   }
 
   const product = await stripe.products.create({
-    name: "Customized Case",
-    description: "A customized case for your needs",
+    name: "Custom iPhone Case",
     images: [configuration.imageUrl],
     default_price_data: {
+      currency: "USD",
       unit_amount: price,
-      currency: "usd",
-    },
-    metadata: {
-      orderId: order.id,
     },
   });
 
