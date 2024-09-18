@@ -88,20 +88,21 @@ export async function POST(req: Request) {
 
       await resend.emails.send({
         from: "CaseCobra <brent.agetro@gmail.com>",
-        // @ts-ignore
-        to: [event.data.object.customer_details?.email],
+        to: [event.data.object.customer_details?.email].filter(
+          (email): email is string => !!email
+        ), // Ensure only valid strings are in the array
         subject: "Thanks for your order!",
         react: OrderReceivedEmail({
           orderId,
           orderDate: updatedOrder.createdAt.toLocaleDateString(),
           // @ts-ignore
           shippingAddress: {
-            name: session.customer_details!.name!,
-            city: shippingAddress!.city!,
-            country: shippingAddress!.country!,
-            postalCode: shippingAddress!.postal_code!,
-            street: shippingAddress!.line1!,
-            state: shippingAddress!.state,
+            name: session.customer_details?.name || "Customer", // Fallback in case name is undefined
+            city: shippingAddress?.city || "N/A", // Handle missing address fields
+            country: shippingAddress?.country || "N/A",
+            postalCode: shippingAddress?.postal_code || "N/A",
+            street: shippingAddress?.line1 || "N/A",
+            state: shippingAddress?.state || "N/A",
           },
         }),
       });
