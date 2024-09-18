@@ -39,6 +39,8 @@ export async function POST(req: Request) {
       const billingAddress = session.customer_details?.address;
       const shippingAddress = session.shipping_details?.address;
 
+      console.log(billingAddress, shippingAddress);
+
       // Add checks for billing and shipping addresses
       if (!billingAddress || !shippingAddress) {
         throw new Error("Missing billing or shipping address");
