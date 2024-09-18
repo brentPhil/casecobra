@@ -20,11 +20,12 @@ export async function POST(req: Request) {
     );
 
     if (event.type === "checkout.session.completed") {
-      if (!event.data.object.customer_details?.email) {
+      const session = event.data.object as Stripe.Checkout.Session;
+
+      // Check if customer details and email are available
+      if (!session.customer_details?.email) {
         throw new Error("Missing user email");
       }
-
-      const session = event.data.object as Stripe.Checkout.Session;
 
       const { userId, orderId } = session.metadata || {
         userId: null,
@@ -35,8 +36,13 @@ export async function POST(req: Request) {
         throw new Error("Invalid request metadata");
       }
 
-      const billingAddress = session.customer_details!.address;
-      const shippingAddress = session.shipping_details!.address;
+      const billingAddress = session.customer_details?.address;
+      const shippingAddress = session.shipping_details?.address;
+
+      // Add checks for billing and shipping addresses
+      if (!billingAddress || !shippingAddress) {
+        throw new Error("Missing billing or shipping address");
+      }
 
       await db.order.update({
         where: {
@@ -46,22 +52,22 @@ export async function POST(req: Request) {
           isPaid: true,
           shippingAddress: {
             create: {
-              name: session.customer_details!.name!,
-              city: shippingAddress!.city!,
-              country: shippingAddress!.country!,
-              postalCode: shippingAddress!.postal_code!,
-              street: shippingAddress!.line1!,
-              state: shippingAddress!.state,
+              name: session.customer_details.name!,
+              city: shippingAddress.city!,
+              country: shippingAddress.country!,
+              postalCode: shippingAddress.postal_code!,
+              street: shippingAddress.line1!,
+              state: shippingAddress.state || null, // Optional fields can be set to null
             },
           },
           billingAddress: {
             create: {
-              name: session.customer_details!.name!,
-              city: billingAddress!.city!,
-              country: billingAddress!.country!,
-              postalCode: billingAddress!.postal_code!,
-              street: billingAddress!.line1!,
-              state: billingAddress!.state,
+              name: session.customer_details.name!,
+              city: billingAddress.city!,
+              country: billingAddress.country!,
+              postalCode: billingAddress.postal_code!,
+              street: billingAddress.line1!,
+              state: billingAddress.state || null, // Optional fields can be set to null
             },
           },
         },
