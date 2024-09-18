@@ -35,10 +35,12 @@ export async function POST(req: Request) {
       }
 
       const billingAddress = session.customer_details!.address;
-      const shippingAddress = session.shipping_details?.address;
+      const shippingAddress = session.shipping_details!.address;
 
       await db.order.update({
-        where: { id: orderId },
+        where: {
+          id: orderId,
+        },
         data: {
           isPaid: true,
           shippingAddress: {
