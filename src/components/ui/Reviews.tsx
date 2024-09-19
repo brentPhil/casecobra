@@ -125,7 +125,7 @@ function ReviewGrid() {
       h-[49rem] max-h-[150vh] 
       grid-cols-1 items-start 
       gap-8 overflow-hidden 
-      px-4 sm:mt-20 
+      px-4 
       md:grid-cols-2 
       lg:grid-cols-3
       [mask-image:linear-gradient(to_bottom,transparent,white_20%,white_90%,transparent)]
