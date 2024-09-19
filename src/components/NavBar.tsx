@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import HoverLinks from "./ui/HoverLinks";
 import { ModeToggle } from "./ui/ModeToggle";
+import Logo from "./logo";
 
 export const NavItems = [
   {
@@ -37,8 +38,8 @@ const NavBar = async () => {
       <MaxWidthWrapper>
         {/* Menu Items */}
         <div className="flex h-14 items-center justify-between">
-          <Link href="/" className=" flex font-semibold">
-            case <span className="text-primary">Cobra</span>
+          <Link href="/" className=" py-3 flex font-semibold">
+            <Logo className="h-8" text />
           </Link>
 
           <div className="flex gap-3 items-center">

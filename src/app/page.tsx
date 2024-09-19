@@ -1,3 +1,4 @@
+import Logo from "@/components/logo";
 import Phone from "@/components/Phone";
 import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
 import { buttonVariants } from "@/components/ui/button";
@@ -25,7 +26,7 @@ export default function Home() {
           <div className="col-span-2 px-6 lg:px-0 lg:pt-4">
             <div className="relative mx-auto text-center lg:text-left flex flex-col items-center lg:items-start">
               <div className="absolute w-28 left-0 -top-20 hidden lg:block">
-                <Image width={100} height={100} alt="" src="/snake-1.png" />
+                <Logo />
               </div>
               <ParagraphHighlight
                 text="Custom"
@@ -37,8 +38,8 @@ export default function Home() {
               <p className="mt-8 text-lg lg:pr-0 max-w-prose text-center lg:text-left text-balance md:text-wrap">
                 capture your favorite moments with our custom phone case. With
                 your own, <span className="font-semibold">one-of-one</span>{" "}
-                phone case. CaseCobra allows you to protect your memories not
-                just your phone case.
+                phone case. beeCase allows you to protect your memories not just
+                your phone case.
               </p>
               <ul className="mt-8 space-y-2 text-left font-medium flex flex-col items-center lg:items-start">
                 <div className="space-y-2">
@@ -95,13 +96,6 @@ export default function Home() {
               What our{" "}
               <span className="relative px-2 text-primary">customers</span> say
             </h2>
-            <Image
-              alt=""
-              width={200}
-              height={200}
-              src="/snake-2.png"
-              className="w-24 order-0 lg:order-2"
-            />
           </div>
           <div className="w-full px-4">
             <InfiniteMovingCards
@@ -116,7 +110,7 @@ export default function Home() {
       <section>
         <MaxWidthWrapper className="py-24">
           <div className="mb-12 px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl sm:text-center">
+            <div className="mx-auto sm:text-center">
               <ParagraphHighlight
                 text="your own case"
                 textClass="bg-primary rounded-xl text-primary-foreground px-2"
@@ -129,8 +123,8 @@ export default function Home() {
           <div className="mx-auto max-w-6xl px-6 lg:px-8">
             <div className="relative flex flex-col items-center md:grid grid-cols-2 gap-40">
               <Image
-                width={200}
-                height={200}
+                width={150}
+                height={150}
                 alt=""
                 src="/arrow.png"
                 className="absolute top-[25rem] md:top-1/2 -translate-y-1/2 z-10 left-1/2 -translate-x-1/2 rotate-90 md:rotate-0"
@@ -151,19 +145,19 @@ export default function Home() {
           </div>
           <ul className="mx-auto mt-12 max-w-prose sm:text-lg space-y-2 w-fit">
             <li className="w-fit">
-              <Check className="h-5 w-5 text-green-600 inline mr-1.5" />
+              <Check className="h-5 w-5 text-primary inline mr-1.5" />
               High-quality silicone material
             </li>
             <li className="w-fit">
-              <Check className="h-5 w-5 text-green-600 inline mr-1.5" />
+              <Check className="h-5 w-5 text-primary inline mr-1.5" />
               Scratch- and fingerprint resistant coating
             </li>
             <li className="w-fit">
-              <Check className="h-5 w-5 text-green-600 inline mr-1.5" />
+              <Check className="h-5 w-5 text-primary inline mr-1.5" />
               Wireless charging compatible
             </li>
             <li className="w-fit">
-              <Check className="h-5 w-5 text-green-600 inline mr-1.5" />5 year
+              <Check className="h-5 w-5 text-primary inline mr-1.5" />5 year
               print warranty
             </li>
 

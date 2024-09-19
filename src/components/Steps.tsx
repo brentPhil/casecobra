@@ -45,9 +45,9 @@ const Steps = () => {
             <div className="">
               <span
                 className={cn(
-                  " absolute left-0 top-0 h-full w-1 bg-muted lg:bottom-0 lg:top-auto lg:h-1 lg:w-full",
+                  " absolute left-0 top-0 h-full w-1 bg-card lg:bottom-0 lg:top-auto lg:h-1 lg:w-full",
                   {
-                    "bg-muted-foreground": isCurrent,
+                    "bg-secondary": isCurrent,
                     "bg-primary": isCompleted,
                   }
                 )}

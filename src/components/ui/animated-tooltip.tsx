@@ -67,10 +67,6 @@ export const AnimatedTooltip = ({
                 }}
                 className="absolute -top-14 -inset-x-1/2 h-fit w-fit flex flex-col items-center justify-center rounded-md bg-primary z-50 shadow-xl px-4 py-2"
               >
-                <div className="w-full flex flex-col items-center justify-center z-30 absolute inset-x-0 -bottom-px">
-                  <div className="w-[40%] bg-gradient-to-r from-transparent via-teal-500 to-transparent h-px " />
-                  <div className="w-[20%] -translate-y-[1px] bg-gradient-to-r from-transparent via-primary to-transparent h-px " />
-                </div>
                 <div className="font-bold text-primary-foreground relative z-30 text-base">
                   {item.name}
                 </div>

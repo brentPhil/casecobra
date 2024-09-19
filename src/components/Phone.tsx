@@ -12,7 +12,10 @@ const Phone: React.FC<PhoneProps> = ({ className, imgSrc, dark, ...props }) => {
   return (
     <div
       {...props}
-      className={cn("relative pointer-events-none z-50", className)}
+      className={cn(
+        "relative overflow-hidden rounded-[2.1rem] pointer-events-none z-50",
+        className
+      )}
     >
       <Image
         width={600}
